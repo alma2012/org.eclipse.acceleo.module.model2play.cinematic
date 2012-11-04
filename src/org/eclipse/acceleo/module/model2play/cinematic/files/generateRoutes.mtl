@@ -1,0 +1,32 @@
+[comment encoding = UTF-8 /]
+[**
+ * The documentation of the module htmlActionStateFile.
+ */]
+[module generateRoutes('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::common::utils]
+[import org::eclipse::acceleo::module::model2play::cinematic::requests::requests]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateActionState]
+[import org::eclipse::acceleo::module::model2play::cinematic::common::routeViewState]
+
+[**
+ * The documentation of the template genHtmlActionStateFile.
+ * @param aActionState
+ */]
+[template public generateRoutes(aCinematicRoot : CinematicRoot)]
+
+[file ('app/conf/routes', false, 'UTF-8')]
+
+[for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
+[aViewState.routeViewState()/]
+[/for]
+
+[for (aActionState : ActionState | aCinematicRoot.eAllContents(ActionState))]
+[aActionState.generateActionState()/]
+[/for]
+
+[/file]
+
+[/template]
+

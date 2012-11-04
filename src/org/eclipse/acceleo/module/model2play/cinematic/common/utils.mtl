@@ -1,0 +1,22 @@
+[comment encoding = UTF-8 /]
+[**
+ * The documentation of the module generate.
+ */]
+[module utils('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
+
+[template public genFullQualifiedFileName(aFS : FlowState)]
+//TODO handle [aFS.eClass().name/]
+[/template]
+
+[**
+ * The documentation of the template genFullQualifiedFileName.
+ * @param aViewState
+ */]
+[template public gen_page_link_name( aViewState : ViewState )]
+[for (aViewContainer : ViewContainer | aViewState.viewContainers)]
+[name.replace('Page', '').toLower()/][/for]
+[/template]
+
+[template public gen_page_name( aViewContainer : ViewContainer )]
+[name/]
+[/template]

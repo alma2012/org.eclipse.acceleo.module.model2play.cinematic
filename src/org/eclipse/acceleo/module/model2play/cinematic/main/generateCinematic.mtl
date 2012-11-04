@@ -1,0 +1,31 @@
+[comment encoding = UTF-8 /]
+[**
+ * The documentation of the module generateCinematic.
+ */]
+[module generateCinematic('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePage]
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateRoutes]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::common::routeViewState]
+[import org::eclipse::acceleo::module::model2play::cinematic::common::controllerMethodViewState]
+
+[**
+ * The documentation of the template generateElement.
+ * @param aCinematicRoot
+ */]
+[template public generateElement(aCinematicRoot : CinematicRoot)]
+[comment @main/]
+[aCinematicRoot.generateRoutes()/]
+[file (aCinematicRoot.name.concat('.java'), false, 'UTF-8')]
+// Here [aCinematicRoot.name/] template file
+
+[for (aViewContainer : ViewContainer | aCinematicRoot.eAllContents(ViewContainer))]
+[aViewContainer.generateTemplatePage()/]
+[/for]
+
+[for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
+[aViewState.controllerMethodViewState()/]
+[/for]
+
+[/file]
+[/template]
