@@ -5,9 +5,12 @@
 [module generateCinematic('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
 [import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePage]
 [import org::eclipse::acceleo::module::model2play::cinematic::files::generateRoutes]
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateController]
 
 [import org::eclipse::acceleo::module::model2play::cinematic::common::routeViewState]
 [import org::eclipse::acceleo::module::model2play::cinematic::common::controllerMethodViewState]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::requests::requests]
 
 [**
  * The documentation of the template generateElement.
@@ -15,17 +18,21 @@
  */]
 [template public generateElement(aCinematicRoot : CinematicRoot)]
 [comment @main/]
+
+[file ('debug.txt', false, 'UTF-8')]
+
 [aCinematicRoot.generateRoutes()/]
-[file (aCinematicRoot.name.concat('.java'), false, 'UTF-8')]
-// Here [aCinematicRoot.name/] template file
+[aCinematicRoot.generateController()/]
 
 [for (aViewContainer : ViewContainer | aCinematicRoot.eAllContents(ViewContainer))]
+-- ViewContainer : [aViewContainer.name/] ([aViewContainer.widget.name/])
+[if (aViewContainer.widget.name = 'Page')]
+	-> It's a page !
 [aViewContainer.generateTemplatePage()/]
-[/for]
+[/if]
 
-[for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
-[aViewState.controllerMethodViewState()/]
 [/for]
 
 [/file]
+
 [/template]

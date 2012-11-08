@@ -13,10 +13,10 @@
  */]
 [template public generateTemplatePage( myPage : ViewContainer )]
 
-[if(myPage.isPage())]
+[if (myPage.widget.name = 'Page')]
 [file ('app/views/'.concat(myPage.gen_page_name()).concat('.scala.html'), false, 'UTF-8')]
-[for(myPage.viewElements.widget)]
-<!-- Here, a [qualifiedName()/] -->
+[for(myPage.viewElements)]
+<!-- Here, a [widget.name/] -->
 [/for]
 [/file]
 [/if]

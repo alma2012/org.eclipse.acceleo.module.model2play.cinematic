@@ -4,10 +4,11 @@
  */]
 [module generateRoutes('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
 
-[import org::eclipse::acceleo::module::model2play::cinematic::common::utils]
 [import org::eclipse::acceleo::module::model2play::cinematic::requests::requests]
 
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateActionState]
+[import org::eclipse::acceleo::module::model2play::cinematic::common::utils]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::common::generateActionState]
 [import org::eclipse::acceleo::module::model2play::cinematic::common::routeViewState]
 
 [**

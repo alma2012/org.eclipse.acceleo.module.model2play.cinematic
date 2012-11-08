@@ -1,0 +1,35 @@
+[comment encoding = UTF-8 /]
+[**
+ * The documentation of the module htmlActionStateFile.
+ */]
+[module generateController('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::requests::requests]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::common::utils]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::common::generateActionState]
+[import org::eclipse::acceleo::module::model2play::cinematic::common::controllerMethodViewState]
+
+[**
+ * The documentation of the template genHtmlActionStateFile.
+ * @param aActionState
+ */]
+[template public generateController(aCinematicRoot : CinematicRoot)]
+
+[file ('app/controllers/MainController', false, 'UTF-8')]
+
+package controllers;
+
+import play.mvc.Controller;
+import play.mvc.Result;
+
+public class MainController extends Controller {
+[for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
+	[aViewState.controllerMethodViewState()/]
+[/for]
+};
+
+[/file]
+
+[/template]

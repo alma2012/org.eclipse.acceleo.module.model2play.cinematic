@@ -13,7 +13,7 @@
 [template public routeViewState( myViewState : ViewState )]
 
 // Route for : [myViewState.name/]
-GET	/[myViewState.gen_page_link_name()/] display_[myViewState.gen_page_link_name()/]_page()
+GET	/[myViewState.gen_page_link_name()/] controllers.MainController.display_[myViewState.gen_page_link_name()/]_page()
 
 [/template]
 
