@@ -4,15 +4,10 @@
  */]
 [module generateCinematic('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
 [import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateMainPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateCartPage]
+
 [import org::eclipse::acceleo::module::model2play::cinematic::files::generateRoutes]
 [import org::eclipse::acceleo::module::model2play::cinematic::files::generateController]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateRegisterPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateInformationsPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePaymentPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateOrderPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateProductPage]
+
 
 [import org::eclipse::acceleo::module::model2play::cinematic::common::routeViewState]
 [import org::eclipse::acceleo::module::model2play::cinematic::common::controllerMethodViewState]
