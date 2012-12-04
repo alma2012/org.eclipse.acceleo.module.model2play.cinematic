@@ -1,0 +1,7 @@
+[comment encoding = UTF-8 /]
+[module generateTemplatePaymentPage('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
+
+
+[template public generateTemplatePaymentPage(aViewContainer : ViewContainer)]
+
+[/template]

@@ -14,7 +14,7 @@ aWidget.qualifiedName() = 'html.file'
 /]
 
 [**
- * The documentation of the query qualifiedName.
+ * The documentation of the query qualifiedName
  * @param aWidget
  */]
 [query public qualifiedName(aWidget : Widget) : String = aWidget.eContainer(Toolkit).name + '.' + aWidget.name/]
