@@ -1,7 +1,0 @@
-[comment encoding = UTF-8 /]
-[module generateTemplateRegisterPage('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
-
-
-[template public generateTemplateRegisterPage(aViewContainer : ViewContainer)]
-
-[/template]
