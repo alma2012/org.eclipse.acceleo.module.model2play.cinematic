@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="generateCinematic" name="org.eclipse.acceleo.module.model2play.cinematic">
-    <property name="ECLIPSE_HOME" value="../../../apps/ObeoDesigner"/>
-    <property name="ECLIPSE_WORKSPACE" value="../../../workspace_o"/>
+    <property name="ECLIPSE_HOME" value="../../../ObeoDesigner"/>
+    <property name="ECLIPSE_WORKSPACE" value="../../../ObeoDesigner/workspace"/>
 
     <!-- The classpath with only the dependencies used by the project -->
     <path id="org.eclipse.acceleo.module.model2play.cinematic.libraryclasspath">
