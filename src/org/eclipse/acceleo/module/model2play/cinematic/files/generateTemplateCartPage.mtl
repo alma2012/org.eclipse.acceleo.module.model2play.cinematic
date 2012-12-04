@@ -1,7 +1,0 @@
-[comment encoding = UTF-8 /]
-[module generateTemplateCartPage('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
-
-
-[template public generateTemplateCartPage(aViewContainer : ViewContainer)]
-
-[/template]
