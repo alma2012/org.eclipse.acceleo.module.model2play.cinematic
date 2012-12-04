@@ -3,20 +3,12 @@
  * The documentation of the module generateCinematic.
  */]
 [module generateCinematic('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateMainPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateCartPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateRoutes]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateController]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateRegisterPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateInformationsPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePaymentPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateOrderPage]
-[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplateProductPage]
 
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateController]
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateRoutes]
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePage]
 [import org::eclipse::acceleo::module::model2play::cinematic::common::routeViewState]
 [import org::eclipse::acceleo::module::model2play::cinematic::common::controllerMethodViewState]
-
 [import org::eclipse::acceleo::module::model2play::cinematic::requests::requests]
 
 [**
@@ -30,31 +22,7 @@
 
 [aCinematicRoot.generateRoutes()/]
 [aCinematicRoot.generateController()/]
-
-[for (aViewContainer : ViewContainer | aCinematicRoot.eAllContents(ViewContainer))]
--- ViewContainer : [aViewContainer.name/] ([aViewContainer.widget.name/])
-[if (aViewContainer.widget.name.contains('Main'))]
-[aViewContainer.generateTemplateMainPage()/]
-[/if]
-[if (aViewContainer.widget.name.contains('Cart'))]
-[aViewContainer.generateTemplateCartPage()/]
-[/if]
-[if (aViewContainer.widget.name.contains('Register'))]
-[aViewContainer.generateTemplateRegisterPage()/]
-[/if]
-[if (aViewContainer.widget.name.contains('informations'))]
-[aViewContainer.generateTemplateInformationsPage()/]
-[/if]
-[if (aViewContainer.widget.name.contains('payment'))]
-[aViewContainer.generateTemplatePaymentPage()/]
-[/if]
-[if (aViewContainer.widget.name.contains('order'))]
-[aViewContainer.generateTemplateOrderPage()/]
-[/if]
-[if (aViewContainer.widget.name.contains('product'))]
-[aViewContainer.generateTemplateProductPage()/]
-[/if]
-[/for]
+[aCinematicRoot.generateTemplatePage()/]
 
 [/file]
 

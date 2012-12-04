@@ -11,14 +11,47 @@
  * The documentation of the template genHtmlActionStateFile.
  * @param aActionState
  */]
-[template public generateTemplatePage( myPage : ViewContainer )]
+[template public generateTemplatePage( aCinematicRoot : CinematicRoot )]
 
-[if (myPage.widget.name = 'Page')]
-[file ('app/views/'.concat(myPage.gen_page_name()).concat('.scala.html'), false, 'UTF-8')]
-[for(myPage.viewElements)]
-<!-- Here, a [widget.name/] -->
-[/for]
+[for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
+[file ('app/views/'.concat(aViewState.gen_page_link_name()).concat('.scala.html'), false, 'UTF-8')]
+	[if (aViewState.gen_page_link_name().equalsIgnoreCase('main'))]
+	
+	[elseif (aViewState.gen_page_link_name().equalsIgnoreCase('cart'))]
+	
+	[elseif (aViewState.gen_page_link_name().equalsIgnoreCase('informations'))]
+	
+	[elseif (aViewState.gen_page_link_name().equalsIgnoreCase('register'))]
+	
+	['@'/](myForm: Form['['/]structures.CustomerForm[']'/], errorMessage: String = "")
+	['@'/]import structures.CustomerForm
+	
+	['@'/]main("[aViewState.gen_page_link_name().toUpperFirst()/]") {
+	
+		[aViewState.gen_error() /]
+		[for (aFlowAction : FlowAction | aCinematicRoot.flows.states.eAllContents(FlowAction)) ]
+			[if (aFlowAction.name.toLower().contains('register'))]['@'/]helper.form(action = routes.Accounts.[aFlowAction.name/]()) {[/if]
+		[/for]
+		[for (aViewElement : ViewElement | aViewState.viewContainers.eAllContents(ViewElement))]
+		[if (aViewElement.widget.name.toLower()='button')]
+			<input type="submit" value="[aViewElement.label/]">
+		[elseif (aViewElement.widget.name.toLower()='text')]
+			['@'/]helper.inputText(myForm("[aViewElement.label/]"))
+		[elseif (aViewElement.widget.name.toLower()='password')]
+			['@'/]helper.inputPassword(myForm("[aViewElement.label/]"))
+		[/if]
+		[/for]
+		}
+	
+	}
+	[elseif (aViewState.gen_page_link_name().equalsIgnoreCase('payment'))]
+	
+	[elseif (aViewState.gen_page_link_name().equalsIgnoreCase('order'))]
+	
+	[elseif (aViewState.gen_page_link_name().equalsIgnoreCase('product'))]
+	
+	[/if]
 [/file]
-[/if]
+[/for]
 [/template]
 
