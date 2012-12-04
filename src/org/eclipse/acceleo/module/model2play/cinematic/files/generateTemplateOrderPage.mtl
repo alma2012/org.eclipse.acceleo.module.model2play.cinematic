@@ -1,0 +1,7 @@
+[comment encoding = UTF-8 /]
+[module generateTemplateOrderPage('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
+
+
+[template public generateTemplateOrderPage(aViewContainer : ViewContainer)]
+
+[/template]
