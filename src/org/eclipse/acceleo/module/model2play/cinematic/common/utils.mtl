@@ -14,9 +14,15 @@
  */]
 [template public gen_page_link_name( aViewState : ViewState )]
 [for (aViewContainer : ViewContainer | aViewState.viewContainers)]
-[name.replace('Page', '').toLower()/][/for]
+[name.replace('Page', '').replace('Display ','').toLower()/][/for]
 [/template]
 
 [template public gen_page_name( aViewContainer : ViewContainer )]
 [name/]
+[/template]
+
+[template public gen_error( aViewState : ViewState )]
+['@'/]if( errorMessage && !errorMessage.isEmpty() ) {
+		<div style="font-weight:bold;color:red;" id="err_msg">Erreur : ['@'/]errorMessage</div>
+}
 [/template]
