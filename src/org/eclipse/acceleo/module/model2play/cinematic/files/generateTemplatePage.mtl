@@ -13,145 +13,74 @@
  */]
 [template public generateTemplatePage( aCinematicRoot : CinematicRoot )]
 
-[for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
-[file ('app/views/'.concat(aViewState.gen_viewstate_name()).concat('.scala.html'), false, 'UTF-8')]
+[for ( aViewState : ViewState | aCinematicRoot.eAllContents(ViewState) ) ]
+[file ( 'app/views/'.concat(aViewState.gen_viewstate_name()).concat('.scala.html'), false, 'UTF-8')]
 
-[if (aViewState.gen_viewstate_name().equalsIgnoreCase('main'))]
-
-	[for (aViewContainer : ViewContainer | aViewState.viewContainers.eAllContents(ViewContainer)) ]
-	[if(aViewContainer.name.equalsIgnoreCase('Header'))]
-	['@'/](title: String)(content: Html)
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<meta name="author" content="">
-			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		    <title>['@'/]title</title>
-			--<link rel="stylesheet" media="screen" href="fichier.css">   
-		</head>
-		<body>
-			<div class="page container">
-				<header class="jumbotron subhead" id="overview">
-					<h3>Welcome</h3>
-				
-					<div class="navbar">
-				 		<div class="navbar-inner">
-							<div class="container">
-						      	<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-									<span class="icon-bar"></span>
-									<span class="icon-bar"></span>
-									<span class="icon-bar"></span>
-						      	</a>
-							    <div id="nav_collapse">
-									<ul class="nav">
-									  <li class="active"><a id="shop_header" href="/shop">Home </a></li>
-									  <li ><a id="user_cart" alt="your cart" href="/cart">Cart</a></li>
-									  <li >	<a href="login">Login</a> </li >	      
-									  <li >	<a href="register">Register</a> </li >	      
-									  }
-									  <!-- Start of user code post nav -->
-									</ul>
-						
-									<ul class="nav" style="float: right;">
-									  <li class="active">
-									    <form action="logout" style="margin-top:5px" method="post">
-									      <a href="javascript:;"  onclick="parentNode.submit();">Logout</a>
-									      <input type="hidden" name="Logout"/>
-									    </form>
-									  </li>
-									</ul>
-					      		</div>
-					   	 	</div>	  
-				  		</div>	  
-					</div>	  
-			    </header>
-
-				<div class="mycontent">
-					<h1>['@'/]title</h1>
-					['@'/]content
-			    </div>
-	[elseif (aViewContainer.name.equalsIgnoreCase('Footer'))]
-			    <footer class="navbar-inner">
-					<!-- Start of user code footer -->
-		
-					<!-- End of user code -->
-			    </footer>
-
-	[/if]
-	[/for]
-
-	
-[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('shop'))]
-
-	[for (aViewContainer : ViewContainer | aViewState.viewContainers.eAllContents(ViewContainer)) ]
-
-	[if(aViewContainer.widget.name.equalsIgnoreCase('Table'))]
-
-	['@'/](user_login: String = "", products_list: List['['/]models.ProductSale[']'/] = null)
-
-	['@'/]import models.ProductSale
-	
+	[aViewState.gen_error() /]
 	['@'/]main("[aViewState.gen_viewstate_name().toUpperFirst()/]") {
-	
-		<div align="left">
-		['@'/]if(products_list != null && !products_list.isEmpty()){
-			<h3> [aViewContainer.name.replace('Table','')/] </h3>
+
+	[for ( aViewContainer : ViewContainer | aViewState.viewContainers ) ]
+		[aViewContainer.name/]
+		[aViewContainer.widget.name/]
+		[for ( anotherViewContainer : ViewContainer | aViewContainer.eAllContents(ViewContainer) ) ]
+		[anotherViewContainer.name/]
+		[anotherViewContainer.widget.name/]
+		[if (anotherViewContainer.widget.name.equalsIgnoreCase('Table')) ]
+		<div align="left">	
+			<h3> [anotherViewContainer.name/] </h3>
 			<ul>
-			['@'/]for(p : ProductSale <- products_list) {
-				<li>['@'/]p.product_info.label | ['@'/]p.price (x['@'/]p.stock)</li>
-			}
+				<li>[for (aViewElement : ViewElement | anotherViewContainer.eAllContents(ViewElement)) separator('|')]
+				[if (aViewElement.widget.name='Image') ]<balise image>[elseif (aViewElement.widget.name='Label') ]<balise label>[elseif (aViewElement.widget.name='Combo') ]<balise combo>[elseif (aViewElement.widget.name='Button') ]<balise button>[elseif (aViewElement.widget.name='Link') ]<balise link>[elseif (aViewElement.widget.name='Textarea') ]<balise textarea>[elseif (aViewElement.widget.name='Password') ]<balise password>
+[/if]
+				[/for]</li>
 			</ul>
-		} else {
-			(No products)
-		}
 		</div>
-	
-	}
-	[/if]
+		[elseif (anotherViewContainer.widget.name.equalsIgnoreCase('Panel')) ]
+			[for (aTransition : Transition | aCinematicRoot.flows.transitions) ]
+			[if (aTransition.from.eGet('name').toString().equalsIgnoreCase(aViewState.name))]
+			[if (aTransition.to->filter(ActionState)->size() = 1)]
+			['@'/]helper.form(action = routes.MainController.[aTransition.to.actions.name/]())
+			[/if]
+			[/if]
+			[/for]
+				[for (aViewElement : ViewElement | anotherViewContainer.eAllContents(ViewElement))]
+				[if (aViewElement.widget.name='Image') ]
+				[elseif (aViewElement.widget.name='Label') ]
+				[elseif (aViewElement.widget.name='Combo') ]
+				[elseif (aViewElement.widget.name='Button') ]
+				<input type="submit" value="[aViewElement.label/]">
+				[elseif (aViewElement.widget.name='Link') ]
+				[elseif (aViewElement.widget.name='Textarea') ]
+				[elseif (aViewElement.widget.name='Password') ]
+				['@'/]helper.inputPassword(myForm("[aViewElement.label/]"))
+				[elseif (aViewElement.widget.name='Text') ]
+				['@'/]helper.inputText(myForm("[aViewElement.label/]"))
+				[/if]
+				[/for]
+		[/if]
+		[/for]
+		[for (aViewElement : ViewElement | aViewContainer.eContents(ViewElement))]
+			[if (aViewElement.widget.name='Image') ]
+			image
+			[elseif (aViewElement.widget.name='Label') ]
+			label
+			[elseif (aViewElement.widget.name='Combo') ]
+			combo
+			[elseif (aViewElement.widget.name='Button') ]
+			button
+			[elseif (aViewElement.widget.name='Link') ]
+			link
+			[elseif (aViewElement.widget.name='Textarea') ]
+			textarea
+			[elseif (aViewElement.widget.name='Password') ]
+			password
+			[elseif (aViewElement.widget.name='Text') ]
+			text
+			[/if]
+		[/for]
 	[/for]
-
-	
-
-	[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('cart'))]
-	
-	[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('informations'))]
-	
-	[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('register'))]
-
-	['@'/](myForm: Form['['/]structures.CustomerForm[']'/], errorMessage: String = "")
-	['@'/]import structures.CustomerForm
-	
-	['@'/]main("[aViewState.gen_viewstate_name().toUpperFirst()/]") {
-	
-		[aViewState.gen_error() /]
-		[for (aTransition : Transition | aCinematicRoot.flows.transitions) ]
-		[if (aTransition.from.eGet('name').toString().equalsIgnoreCase(aViewState.name))]
-		[if (aTransition.to->filter(ActionState)->size() = 1)]
-		['@'/]helper.form(action = routes.MainController.[aTransition.to.actions.name/]())
-		[/if]
-		[/if]
-		[/for]
-		[for (aViewElement : ViewElement | aViewState.viewContainers.eAllContents(ViewElement))]
-		[if (aViewElement.widget.name.toLower()='button')]
-			<input type="submit" value="[aViewElement.label/]">
-
-		[elseif (aViewElement.widget.name.toLower()='text')]
-			['@'/]helper.inputText(myForm("[aViewElement.label/]"))
-		[elseif (aViewElement.widget.name.toLower()='password')]
-			['@'/]helper.inputPassword(myForm("[aViewElement.label/]"))
-		[/if]
-		[/for]
-		}
-	
-	}
-	[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('payment'))]
-	
-	[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('order'))]
-	
-	[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('product'))]
-	
-	[/if]
 [/file]
 [/for]
+
 [/template]
 
