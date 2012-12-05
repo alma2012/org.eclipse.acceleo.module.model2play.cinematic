@@ -15,94 +15,102 @@
 
 [for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
 [file ('app/views/'.concat(aViewState.gen_viewstate_name()).concat('.scala.html'), false, 'UTF-8')]
-	[if (aViewState.gen_viewstate_name().equalsIgnoreCase('main'))]
+
+[if (aViewState.gen_viewstate_name().equalsIgnoreCase('main'))]
 
 	[for (aViewContainer : ViewContainer | aViewState.viewContainers.eAllContents(ViewContainer)) ]
-	 et hop !
+	[if(aViewContainer.name.equalsIgnoreCase('Header'))]
+	['@'/](title: String)(content: Html)
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta name="author" content="">
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		    <title>['@'/]title</title>
+			--<link rel="stylesheet" media="screen" href="fichier.css">   
+		</head>
+		<body>
+			<div class="page container">
+				<header class="jumbotron subhead" id="overview">
+					<h3>Welcome</h3>
+				
+					<div class="navbar">
+				 		<div class="navbar-inner">
+							<div class="container">
+						      	<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+						      	</a>
+							    <div id="nav_collapse">
+									<ul class="nav">
+									  <li class="active"><a id="shop_header" href="/shop">Home </a></li>
+									  <li ><a id="user_cart" alt="your cart" href="/cart">Cart</a></li>
+									  <li >	<a href="login">Login</a> </li >	      
+									  <li >	<a href="register">Register</a> </li >	      
+									  }
+									  <!-- Start of user code post nav -->
+									</ul>
+						
+									<ul class="nav" style="float: right;">
+									  <li class="active">
+									    <form action="logout" style="margin-top:5px" method="post">
+									      <a href="javascript:;"  onclick="parentNode.submit();">Logout</a>
+									      <input type="hidden" name="Logout"/>
+									    </form>
+									  </li>
+									</ul>
+					      		</div>
+					   	 	</div>	  
+				  		</div>	  
+					</div>	  
+			    </header>
+
+				<div class="mycontent">
+					<h1>['@'/]title</h1>
+					['@'/]content
+			    </div>
+	[elseif (aViewContainer.name.equalsIgnoreCase('Footer'))]
+			    <footer class="navbar-inner">
+					<!-- Start of user code footer -->
+		
+					<!-- End of user code -->
+			    </footer>
+
+	[/if]
 	[/for]
 
-	['@'/](title: String)(content: Html)
+	
+[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('shop'))]
 
-	<!DOCTYPE html>
+	[for (aViewContainer : ViewContainer | aViewState.viewContainers.eAllContents(ViewContainer)) ]
+
+	[if(aViewContainer.widget.name.equalsIgnoreCase('Table'))]
+
+	['@'/](user_login: String = "", products_list: List['['/]models.ProductSale[']'/] = null)
+
+	['@'/]import models.ProductSale
 	
-	<html>
-	  <head>
-	    <meta name="author" content="">
-	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	    <title>['@'/]title</title>
-	    <link rel="stylesheet" media="screen" href="./asset/js/lib/bootstrap/css/bootstrap.css">
+	['@'/]main("[aViewState.gen_viewstate_name().toUpperFirst()/]") {
 	
-	    <link rel="stylesheet" media="screen" href="./asset/js/lib/bootstrap/css/bootstrap-responsive.css">    
-	  </head>
-	  <body>
-	    <div class="page container">
-	      <header class="jumbotron subhead" id="overview">
-		<a class="brand" href="#"> <img class="align-left" src="./asset/img/logood.png" height="75"></a>
-		['@'/]if(session.get("user_login") && !session.get("user_login").isEmpty()){
-		<h3>Welcome ['@'/]session.get("user_login")</h3>
+		<div align="left">
+		['@'/]if(products_list != null && !products_list.isEmpty()){
+			<h3> [aViewContainer.name.replace('Table','')/] </h3>
+			<ul>
+			['@'/]for(p : ProductSale <- products_list) {
+				<li>['@'/]p.product_info.label | ['@'/]p.price (x['@'/]p.stock)</li>
+			}
+			</ul>
 		} else {
-		<h3>You are not connected</h3>
+			(No products)
 		}
+		</div>
 	
-		<div class="navbar">
-		  <div class="navbar-inner">
-		    <div class="container">
-		      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		      </a>
-		      <div id="nav_collapse">
-			<ul class="nav">
-			  <li class="active">
-			    <a id="shop_header" href="/shop">Home </a>
-			  </li>
-			  ['@'/]if(session.get("user_login") && !session.get("user_login").isEmpty()){
-			  <li >	      
-			    <a id="user_cart" alt="your cart" href="/cart">Cart</a>
-			  </li>
-			  } else {
-			  <li >	      
-			    <a href="login">Login</a>
-			  </li >	      
-			  <li >	      
-			    <a href="register">Register</a>
-			  </li >	      
+	}
+	[/if]
+	[/for]
+
 	
-			  }
-			</ul>
-			['@'/]if(session.get("user_login") && !session.get("user_login").isEmpty()){
-			<ul class="nav" style="float: right;">
-			  <li class="active">
-			    <form action="logout" style="margin-top:5px" method="post">
-			      <a href="javascript:;"  onclick="parentNode.submit();">Logout</a>
-			      <input type="hidden" name="Logout"/>
-			    </form>
-	
-			  </li>
-			  }
-			</ul>
-		      </div>
-		    </div>	  
-		  </div>	  
-		</div>	  
-	      </header>
-	      <div class="mycontent">
-		<h1>['@'/]title</h1>
-		['@'/]content
-	      </div>
-	      <footer class="navbar-inner">
-		<!-- Start of user code footer -->
-		<p class="pull-right">
-		  <div><a href="/admin">Administration</a></div>
-		  <div><a href="/api/tests/productinfo">WS Tests</a></div>  
-		</p>
-		<p></p>
-		<!-- End of user code -->
-	      </footer>
-	    </div>
-	  </body>
-	</html>
 
 	[elseif (aViewState.gen_viewstate_name().equalsIgnoreCase('cart'))]
 	
@@ -118,7 +126,7 @@
 		[aViewState.gen_error() /]
 		[for (aTransition : Transition | aCinematicRoot.flows.transitions) ]
 		[if (aTransition.from.eGet('name').toString().equalsIgnoreCase(aViewState.name))]
-		[if (aTransition.to.toString().contains('ActionState'))]
+		[if (aTransition.to->filter(ActionState)->size() = 1)]
 		['@'/]helper.form(action = routes.MainController.[aTransition.to.actions.name/]())
 		[/if]
 		[/if]
