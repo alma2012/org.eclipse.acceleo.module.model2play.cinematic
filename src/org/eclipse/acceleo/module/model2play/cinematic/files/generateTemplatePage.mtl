@@ -18,22 +18,58 @@
 
 	[aViewState.gen_error() /]
 	['@'/]main("[aViewState.gen_viewstate_name().toUpperFirst()/]") {
-
+	<br>
 	[for ( aViewContainer : ViewContainer | aViewState.viewContainers ) ]
-		[aViewContainer.name/]
-		[aViewContainer.widget.name/]
+[comment]		[aViewContainer.name/] [/comment]
+[comment]		[aViewContainer.widget.name/][/comment]
 		[for ( anotherViewContainer : ViewContainer | aViewContainer.eAllContents(ViewContainer) ) ]
-		[anotherViewContainer.name/]
-		[anotherViewContainer.widget.name/]
+[comment]		[anotherViewContainer.name/][/comment]
+[comment]		[anotherViewContainer.widget.name/][/comment]
 		[if (anotherViewContainer.widget.name.equalsIgnoreCase('Table')) ]
 		<div align="left">	
-			<h3> [anotherViewContainer.name/] </h3>
-			<ul>
-				<li>[for (aViewElement : ViewElement | anotherViewContainer.eAllContents(ViewElement)) separator('|')]
-				[if (aViewElement.widget.name='Image') ]<balise image>[elseif (aViewElement.widget.name='Label') ]<balise label>[elseif (aViewElement.widget.name='Combo') ]<balise combo>[elseif (aViewElement.widget.name='Button') ]<balise button>[elseif (aViewElement.widget.name='Link') ]<balise link>[elseif (aViewElement.widget.name='Textarea') ]<balise textarea>[elseif (aViewElement.widget.name='Password') ]<balise password>
-[/if]
-				[/for]</li>
-			</ul>
+			<h3> [anotherViewContainer.label/] </h3>
+
+			<table BORDER="1">
+			   <tr>
+
+				[for (aViewElement : ViewElement | anotherViewContainer.eAllContents(ViewElement)) ]
+				
+				[if (aViewElement.widget.name='Image') ]
+				<th>
+					<IMG SRC="../../../img/cadie.png"
+ 					WIDTH=50
+ 					HEIGHT=40
+					ALT="Asus"
+ 					TITLE="Produit"> </th>
+				[elseif (aViewElement.widget.name='Label') ]
+				<th> <label>[aViewElement.label/]</label> </th>
+
+				[elseif (aViewElement.widget.name='Combo') ]
+				<th> 
+				<label>[aViewElement.label/]</label>
+				<select name="[aViewElement.label/]" size="1">
+    			</select>
+				</th>
+				[elseif (aViewElement.widget.name='Button') ]
+				<th> <input type="submit" value="[aViewElement.label/]"> </th>
+
+				[elseif (aViewElement.widget.name='Link') ]
+				<th> <a href="[aViewElement.label/]">[aViewElement.label/]</a> </th>
+
+				[elseif (aViewElement.widget.name='Textarea') ]
+				<th> <textarea rows="3" cols="5">
+   					
+				</textarea>  </th>
+
+				[elseif (aViewElement.widget.name='Password') ]
+				<th> ['@'/]helper.inputPassword(myForm("[aViewElement.label/]")) </th>
+
+				[/if]
+				[/for]
+
+				</tr>
+			</table>
+			<br>
 		</div>
 		[elseif (anotherViewContainer.widget.name.equalsIgnoreCase('Panel')) ]
 			[for (aTransition : Transition | aCinematicRoot.flows.transitions) ]
@@ -45,40 +81,78 @@
 			[/for]
 				[for (aViewElement : ViewElement | anotherViewContainer.eAllContents(ViewElement))]
 				[if (aViewElement.widget.name='Image') ]
+				<IMG SRC="../../../img/cadie.png"
+ 					WIDTH=50
+ 					HEIGHT=40
+					ALT="Asus"
+ 					TITLE="Produit">
+				<br>
 				[elseif (aViewElement.widget.name='Label') ]
+				<label>[aViewElement.label/]</label>
+				<br>
 				[elseif (aViewElement.widget.name='Combo') ]
+				<label>[aViewElement.label/]</label>
+				<select name="[aViewElement.label/]" size="1">
+    			</select>
+				<br>
 				[elseif (aViewElement.widget.name='Button') ]
 				<input type="submit" value="[aViewElement.label/]">
+				<br>
 				[elseif (aViewElement.widget.name='Link') ]
+				<a href="[aViewElement.label/]">[aViewElement.label/]</a>
+				<br>
 				[elseif (aViewElement.widget.name='Textarea') ]
+				<textarea rows="3" cols="5">
+   					
+				</textarea>
+				<br>
 				[elseif (aViewElement.widget.name='Password') ]
 				['@'/]helper.inputPassword(myForm("[aViewElement.label/]"))
+				<br>
 				[elseif (aViewElement.widget.name='Text') ]
 				['@'/]helper.inputText(myForm("[aViewElement.label/]"))
+				<br>
 				[/if]
 				[/for]
 		[/if]
 		[/for]
 		[for (aViewElement : ViewElement | aViewContainer.eContents(ViewElement))]
 			[if (aViewElement.widget.name='Image') ]
-			image
+			<IMG SRC="../../../img/cadie.png"
+ 					WIDTH=50
+ 					HEIGHT=40
+					ALT="Asus"
+ 					TITLE="Produit">
+			<br>
 			[elseif (aViewElement.widget.name='Label') ]
-			label
+			<label>[aViewElement.label/]</label>
+			<br>
 			[elseif (aViewElement.widget.name='Combo') ]
-			combo
+			<label>[aViewElement.label/]</label>
+				<select name="[aViewElement.label/]" size="1">
+    			</select>
+			<br>
 			[elseif (aViewElement.widget.name='Button') ]
-			button
+			<input type="submit" value="[aViewElement.label/]">
+			<br>
 			[elseif (aViewElement.widget.name='Link') ]
-			link
+			<a href="[aViewElement.label/]">[aViewElement.label/]</a>
+			<br>
 			[elseif (aViewElement.widget.name='Textarea') ]
-			textarea
+			<textarea rows="3" cols="5">
+   					
+				</textarea>
+			<br>
 			[elseif (aViewElement.widget.name='Password') ]
-			password
+			['@'/]helper.inputPassword(myForm("[aViewElement.label/]"))
+			<br>
 			[elseif (aViewElement.widget.name='Text') ]
-			text
+			['@'/]helper.inputText(myForm("[aViewElement.label/]"))
+			<br>
 			[/if]
 		[/for]
 	[/for]
+}
 [/file]
 [/for]
 
