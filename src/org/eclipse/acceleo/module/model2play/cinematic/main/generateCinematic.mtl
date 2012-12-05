@@ -3,6 +3,11 @@
  * The documentation of the module generateCinematic.
  */]
 [module generateCinematic('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateTemplatePage]
+
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateRoutes]
+[import org::eclipse::acceleo::module::model2play::cinematic::files::generateController]
+
 
 [import org::eclipse::acceleo::module::model2play::cinematic::files::generateController]
 [import org::eclipse::acceleo::module::model2play::cinematic::files::generateRoutes]

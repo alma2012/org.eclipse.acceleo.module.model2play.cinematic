@@ -134,6 +134,7 @@
 		[for (aViewElement : ViewElement | aViewState.viewContainers.eAllContents(ViewElement))]
 		[if (aViewElement.widget.name.toLower()='button')]
 			<input type="submit" value="[aViewElement.label/]">
+
 		[elseif (aViewElement.widget.name.toLower()='text')]
 			['@'/]helper.inputText(myForm("[aViewElement.label/]"))
 		[elseif (aViewElement.widget.name.toLower()='password')]
