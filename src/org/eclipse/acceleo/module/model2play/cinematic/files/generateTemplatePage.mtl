@@ -120,8 +120,12 @@
 	['@'/]main("[aViewState.gen_viewstate_name().toUpperFirst()/]") {
 	
 		[aViewState.gen_error() /]
-		[for (aFlowAction : FlowAction | aCinematicRoot.flows.states.eAllContents(FlowAction)) ]
-			[if (aFlowAction.name.toLower().contains('register'))]['@'/]helper.form(action = routes.Accounts.[aFlowAction.name/]()) {[/if]
+		[for (aTransition : Transition | aCinematicRoot.flows.transitions) ]
+		[if (aTransition.from.eGet('name').toString().equalsIgnoreCase(aViewState.name))]
+		[if (aTransition.to.toString().contains('ActionState'))]
+		['@'/]helper.form(action = routes.Accounts.[aTransition.to.actions.name/]())
+		[/if]
+		[/if]
 		[/for]
 		[for (aViewElement : ViewElement | aViewState.viewContainers.eAllContents(ViewElement))]
 		[if (aViewElement.widget.name.toLower()='button')]
