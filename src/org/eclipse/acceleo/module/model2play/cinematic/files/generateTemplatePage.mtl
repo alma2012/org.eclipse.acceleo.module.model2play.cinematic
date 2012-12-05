@@ -123,7 +123,7 @@
 		[for (aTransition : Transition | aCinematicRoot.flows.transitions) ]
 		[if (aTransition.from.eGet('name').toString().equalsIgnoreCase(aViewState.name))]
 		[if (aTransition.to.toString().contains('ActionState'))]
-		['@'/]helper.form(action = routes.Accounts.[aTransition.to.actions.name/]())
+		['@'/]helper.form(action = routes.MainController.[aTransition.to.actions.name/]())
 		[/if]
 		[/if]
 		[/for]
