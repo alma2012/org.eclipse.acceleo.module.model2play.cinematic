@@ -6,6 +6,7 @@
 
 [import org::eclipse::acceleo::module::model2play::cinematic::common::utils]
 [import org::eclipse::acceleo::module::model2play::cinematic::requests::requests]
+[import org::eclipse::acceleo::module::model2play::cinematic::common::widgets /]
 
 [**
  * The documentation of the template genHtmlActionStateFile.
@@ -13,148 +14,67 @@
  */]
 [template public generateTemplatePage( aCinematicRoot : CinematicRoot )]
 
-[for ( aViewState : ViewState | aCinematicRoot.eAllContents(ViewState) ) ]
-[file ( 'app/views/'.concat(aViewState.gen_viewstate_name()).concat('.scala.html'), false, 'UTF-8')]
+[comment] Le fichier main, d'ou sont appelees les autres pages [/comment]
+[aCinematicRoot.genIndexPage()/]
+[comment] Les autres pages, generees a partir des viewstates. [/comment]
+[aCinematicRoot.flows.states->filter(ViewState).genPage()/]
+[/template]
 
-	[aViewState.gen_error() /]
-	['@'/]main("[aViewState.gen_viewstate_name().toUpperFirst()/]") {
-	<br>
-	[for ( aViewContainer : ViewContainer | aViewState.viewContainers ) ]
-[comment]		[aViewContainer.name/] [/comment]
-[comment]		[aViewContainer.widget.name/][/comment]
-		[for ( anotherViewContainer : ViewContainer | aViewContainer.eAllContents(ViewContainer) ) ]
-[comment]		[anotherViewContainer.name/][/comment]
-[comment]		[anotherViewContainer.widget.name/][/comment]
-		[if (anotherViewContainer.widget.name.equalsIgnoreCase('Table')) ]
-		<div align="left">	
-			<h3> [anotherViewContainer.label/] </h3>
+[template private genIndexPage(aCinematicRoot : CinematicRoot)]
+[file ('app/views/main.scala.html',false,'UTF-8')]
+['@'/](title: String)(content: Html)
 
-			<table BORDER="1">
-			   <tr>
+<!DOCTYPE html>
 
-				[for (aViewElement : ViewElement | anotherViewContainer.eAllContents(ViewElement)) ]
-				
-				[if (aViewElement.widget.name='Image') ]
-				<th>
-					<IMG SRC="../../../img/cadie.png"
- 					WIDTH=50
- 					HEIGHT=40
-					ALT="Asus"
- 					TITLE="Produit"> </th>
-				[elseif (aViewElement.widget.name='Label') ]
-				<th> <label>[aViewElement.label/]</label> </th>
+<html>
+  <head>
+    <meta name="author" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>['@'/]title</title>
+    <link rel="stylesheet" media="screen" href="./asset/js/lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" media="screen" href="./asset/js/lib/bootstrap/css/bootstrap-responsive.css">    
+  </head>
+  <body>
+	[comment] Ici template header generant a partir des viewstates du cinematicroot les liens vers pages "speciales" (a definir) [/comment]
+    <div class="page container">
+      <div class="mycontent">
+		<h1>['@'/]title</h1>
+		['@'/]content
+      </div>
+    </div>
+	[comment] Ici template footer generant a partir des viewstates du cinematicroot les liens vers pages "speciales" (a definir) [/comment]
+  </body>
+</html>
+[/file]
+[/template]
 
-				[elseif (aViewElement.widget.name='Combo') ]
-				<th> 
-				<label>[aViewElement.label/]</label>
-				<select name="[aViewElement.label/]" size="1">
-    			</select>
-				</th>
-				[elseif (aViewElement.widget.name='Button') ]
-				<th> <input type="submit" value="[aViewElement.label/]"> </th>
+[template private genPage(aViewState : ViewState)]
+[file ( 'app/views/' + aViewState.gen_viewstate_name() + '.scala.html', false, 'UTF-8')]
 
-				[elseif (aViewElement.widget.name='Link') ]
-				<th> <a href="[aViewElement.label/]">[aViewElement.label/]</a> </th>
+[comment] Gestion des messages d'erreur. [/comment]
+[aViewState.gen_error() /]
+['@'/]main("[aViewState.gen_viewstate_name().toUpperFirst()/]") {
+<br>
 
-				[elseif (aViewElement.widget.name='Textarea') ]
-				<th> <textarea rows="3" cols="5">
-   					
-				</textarea>  </th>
-
-				[elseif (aViewElement.widget.name='Password') ]
-				<th> ['@'/]helper.inputPassword(myForm("[aViewElement.label/]")) </th>
-
-				[/if]
-				[/for]
-
-				</tr>
-			</table>
-			<br>
-		</div>
-		[elseif (anotherViewContainer.widget.name.equalsIgnoreCase('Panel')) ]
-			[for (aTransition : Transition | aCinematicRoot.flows.transitions) ]
-			[if (aTransition.from.eGet('name').toString().equalsIgnoreCase(aViewState.name))]
-			[if (aTransition.to->filter(ActionState)->size() = 1)]
-			['@'/]helper.form(action = routes.MainController.[aTransition.to.actions.name/]())
-			[/if]
-			[/if]
-			[/for]
-				[for (aViewElement : ViewElement | anotherViewContainer.eAllContents(ViewElement))]
-				[if (aViewElement.widget.name='Image') ]
-				<IMG SRC="../../../img/cadie.png"
- 					WIDTH=50
- 					HEIGHT=40
-					ALT="Asus"
- 					TITLE="Produit">
-				<br>
-				[elseif (aViewElement.widget.name='Label') ]
-				<label>[aViewElement.label/]</label>
-				<br>
-				[elseif (aViewElement.widget.name='Combo') ]
-				<label>[aViewElement.label/]</label>
-				<select name="[aViewElement.label/]" size="1">
-    			</select>
-				<br>
-				[elseif (aViewElement.widget.name='Button') ]
-				<input type="submit" value="[aViewElement.label/]">
-				<br>
-				[elseif (aViewElement.widget.name='Link') ]
-				<a href="[aViewElement.label/]">[aViewElement.label/]</a>
-				<br>
-				[elseif (aViewElement.widget.name='Textarea') ]
-				<textarea rows="3" cols="5">
-   					
-				</textarea>
-				<br>
-				[elseif (aViewElement.widget.name='Password') ]
-				['@'/]helper.inputPassword(myForm("[aViewElement.label/]"))
-				<br>
-				[elseif (aViewElement.widget.name='Text') ]
-				['@'/]helper.inputText(myForm("[aViewElement.label/]"))
-				<br>
-				[/if]
-				[/for]
-		[/if]
-		[/for]
-		[for (aViewElement : ViewElement | aViewContainer.eContents(ViewElement))]
-			[if (aViewElement.widget.name='Image') ]
-			<IMG SRC="../../../img/cadie.png"
- 					WIDTH=50
- 					HEIGHT=40
-					ALT="Asus"
- 					TITLE="Produit">
-			<br>
-			[elseif (aViewElement.widget.name='Label') ]
-			<label>[aViewElement.label/]</label>
-			<br>
-			[elseif (aViewElement.widget.name='Combo') ]
-			<label>[aViewElement.label/]</label>
-				<select name="[aViewElement.label/]" size="1">
-    			</select>
-			<br>
-			[elseif (aViewElement.widget.name='Button') ]
-			<input type="submit" value="[aViewElement.label/]">
-			<br>
-			[elseif (aViewElement.widget.name='Link') ]
-			<a href="[aViewElement.label/]">[aViewElement.label/]</a>
-			<br>
-			[elseif (aViewElement.widget.name='Textarea') ]
-			<textarea rows="3" cols="5">
-   					
-				</textarea>
-			<br>
-			[elseif (aViewElement.widget.name='Password') ]
-			['@'/]helper.inputPassword(myForm("[aViewElement.label/]"))
-			<br>
-			[elseif (aViewElement.widget.name='Text') ]
-			['@'/]helper.inputText(myForm("[aViewElement.label/]"))
-			<br>
-			[/if]
-		[/for]
-	[/for]
+	[comment] Pour chaque contenu de page. [/comment]
+	[aViewState.viewContainers->select(widget.name = 'Page')->first().genPage()/]
 }
 [/file]
-[/for]
+[/template]
 
+[template public genPage(container : ViewContainer) ? (container.widget.name = 'Page')]
+[container.viewContainers.generateContainer()/]
+[container.generateWidgetsForContainer()/]
+[/template]
+
+[template public genPage(container : ViewContainer) ? ((container.widget.name = 'Panel')or(container.widget.name = 'Table'))]
+[container.generateContainer()/]
+[/template]
+
+
+[comment exemple de récursion /]
+[template public name(container : ViewContainer)]
+truc pour container
+[container.viewContainers.name()/]
 [/template]
 
