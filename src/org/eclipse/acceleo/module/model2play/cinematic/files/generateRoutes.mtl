@@ -17,7 +17,7 @@
  */]
 [template public generateRoutes(aCinematicRoot : CinematicRoot)]
 
-[file ('app/conf/routes', false, 'UTF-8')]
+[file ('conf/routes', false, 'UTF-8')]
 
 [for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
 [aViewState.routeViewState()/]
