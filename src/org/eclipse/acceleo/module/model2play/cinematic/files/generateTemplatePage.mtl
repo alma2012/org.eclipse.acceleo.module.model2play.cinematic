@@ -72,9 +72,3 @@
 [/template]
 
 
-[comment exemple de récursion /]
-[template public name(container : ViewContainer)]
-truc pour container
-[container.viewContainers.name()/]
-[/template]
-
