@@ -27,6 +27,7 @@
 [name.replace('Page', '').replace('Display ','').toLower()/][/for]
 [/template]
 
+
 [template public gen_error( aViewState : ViewState )]
 ['@'/]if( errorMessage && !errorMessage.isEmpty() ) {
 		<div style="font-weight:bold;color:red;" id="err_msg">Erreur : ['@'/]errorMessage</div>

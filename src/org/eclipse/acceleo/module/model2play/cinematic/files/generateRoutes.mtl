@@ -4,11 +4,7 @@
  */]
 [module generateRoutes('http://www.obeonetwork.org/dsl/cinematic/3.0.0')]
 
-[import org::eclipse::acceleo::module::model2play::cinematic::requests::requests]
-
-[import org::eclipse::acceleo::module::model2play::cinematic::common::utils]
-
-[import org::eclipse::acceleo::module::model2play::cinematic::common::generateActionState]
+[import org::eclipse::acceleo::module::model2play::cinematic::common::routeActionState]
 [import org::eclipse::acceleo::module::model2play::cinematic::common::routeViewState]
 
 [**
@@ -19,14 +15,18 @@
 
 [file ('conf/routes', false, 'UTF-8')]
 
+<!--[protected ('completing the routes-->')] 
+
+<!--[/protected]-->
+
+[comment] Les methodes display - affichage de pages. [/comment]
 [for (aViewState : ViewState | aCinematicRoot.eAllContents(ViewState))]
 [aViewState.routeViewState()/]
 [/for]
-
-[for (aActionState : ActionState | aCinematicRoot.eAllContents(ActionState))]
-[aActionState.generateActionState()/]
+[comment] Les autres methodes, de type envoi de donnes. [/comment]
+[for (aTransition : Transition | aCinematicRoot.flows->first().transitions)]
+[aTransition.routeActionState()/]
 [/for]
-
 [/file]
 
 [/template]

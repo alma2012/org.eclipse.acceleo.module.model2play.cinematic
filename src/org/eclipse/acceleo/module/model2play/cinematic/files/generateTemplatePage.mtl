@@ -28,13 +28,19 @@
 
 <html>
   <head>
+	<!--[protected ('completing the html header-->')] 
     <meta name="author" content="">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>['@'/]title</title>
     <link rel="stylesheet" media="screen" href="./asset/js/lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" media="screen" href="./asset/js/lib/bootstrap/css/bootstrap-responsive.css">    
+    <link rel="stylesheet" media="screen" href="./asset/js/lib/bootstrap/css/bootstrap-responsive.css">  	
+	<!--[/protected]-->  
   </head>
   <body>
+
+	<!--[protected ('completing the main page : header -->')] 
+    	
+	<!--[/protected]-->
 	[comment] Ici template header generant a partir des viewstates du cinematicroot les liens vers pages "speciales" (a definir) [/comment]
     <div class="page container">
       <div class="mycontent">
@@ -42,6 +48,9 @@
 		['@'/]content
       </div>
     </div>
+	<!--[protected ('completing the main page : footer -->')] 
+    	
+	<!--[/protected]-->
 	[comment] Ici template footer generant a partir des viewstates du cinematicroot les liens vers pages "speciales" (a definir) [/comment]
   </body>
 </html>
@@ -58,6 +67,11 @@
 
 	[comment] Pour chaque contenu de page. [/comment]
 	[aViewState.viewContainers->select(widget.name = 'Page')->first().genPage()/]
+
+	<!--[protected ('completing the page-->')] 
+	
+	<!--[/protected]-->  
+	
 }
 [/file]
 [/template]

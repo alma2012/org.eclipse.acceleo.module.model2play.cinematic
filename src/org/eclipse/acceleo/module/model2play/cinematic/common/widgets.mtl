@@ -7,19 +7,29 @@
 
 	<table BORDER="1">
 	   <tr>
-		[viewContainer.viewElements.genWidgetWithPrefixAndSuffix('<th>', '</th>')/]
+		[viewContainer.viewElements.genWidgetWithPrefixAndSuffix('<th>', '</th>\n')/]
 		</tr>
+		<!--[protected ('completing the table-->')] 
+	
+		<!--[/protected]--> 
 	</table>
 	<br>
+	<!--[protected ('completing description of container-->')] 
+	
+	<!--[/protected]--> 
 </div>
 [/template]
 
 [template public generateContainer(viewContainer : ViewContainer) ? (viewContainer.widget.name.equalsIgnoreCase('Panel'))]
 [viewContainer.eContainer(CinematicRoot).getTransitionsOnEvent(viewContainer.getSubmitButton().getOnClickEvent())->first().genForm()/] {
 	[viewContainer.generateWidgetsForContainer()/]
+	<!--[protected ('completing the panel-->')] 
+	
+	<!--[/protected]-->
 }
 [/template]
 
+[comment : un simple widget dans une page, suivi d'un <br>. Les \n servent a l'indentation. /]
 [template public generateWidgetsForContainer(viewContainer : ViewContainer)]
 [viewContainer.viewElements.genWidgetWithPrefixAndSuffix('', '\n<br>\n')/]
 [/template]
@@ -33,7 +43,11 @@
 [/template]
 
 [template public genWidget(viewElement : ViewElement) ? (viewElement.isImage())]
-<IMG SRC="../../../img/cadie.png" WIDTH=50 HEIGHT=40 ALT="Asus" TITLE="Produit">
+
+	<!--[protected ('describing the image-->')] 
+	<IMG SRC="" WIDTH=50 HEIGHT=40 ALT="" TITLE="">
+	<!--[/protected]-->
+
 [/template]
 
 [template public genWidget(viewElement : ViewElement) ? (viewElement.isLabel())]
@@ -41,8 +55,7 @@
 [/template]
 
 [template public genWidget(viewElement : ViewElement) ? (viewElement.isCombo())]
-<label>[viewElement.label/]</label>
-<select name="[viewElement.label/]" size="1"/>
+<label>[viewElement.label/]</label> <select name="[viewElement.label/]" size="1"/>
 [/template]
 
 [template public genWidget(viewElement : ViewElement) ? (viewElement.isButton())]
@@ -54,7 +67,11 @@
 [/template]
 
 [template public genWidget(viewElement : ViewElement) ? (viewElement.isTextarea())]
+
+<!--[protected ('describing textarea-->')] 
 <textarea rows="3" cols="5"/>
+<!--[/protected]-->
+
 [/template]
 
 [template public genWidget(viewElement : ViewElement) ? (viewElement.isText())]

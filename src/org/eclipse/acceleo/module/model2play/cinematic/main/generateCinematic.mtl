@@ -29,9 +29,7 @@
 [aCinematicRoot.generateController()/]
 
 [for (aViewContainer : ViewContainer | aCinematicRoot.eAllContents(ViewContainer))]
--- ViewContainer : [aViewContainer.name/] ([aViewContainer.widget.name/])
 [if (aViewContainer.widget.name = 'Page')]
-	-> It's a page !
 [aViewContainer.generateTemplatePage( aCinematicRoot)/]
 [/if]
 
