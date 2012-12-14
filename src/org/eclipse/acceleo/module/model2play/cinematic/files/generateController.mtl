@@ -50,12 +50,9 @@ public static Result [anActionState.name.replace(' ', '_').toLower()/]() {
 	<!--[protected ('completing the fonction-->')] 
 	
 	<!--[/protected]-->
-
-	[if (anActionState.actions->first().operations->notEmpty())]
-	[anActionState.actions->first().operations->first().service_method_call()/];
-	[/if]
+	[for(anActionState.actions->first().operations->first().output)][type.name/][if (self <> anActionState.actions->first().operations->first().output->last())],[/if][/for] [for(anActionState.actions->first().operations->first().output)][name/] =[if (self <> anActionState.actions->first().operations->first().output->last())],[/if][/for] [if (anActionState.actions->first().operations->notEmpty())][anActionState.actions->first().operations->first().service_method_call()/];[/if]
 	[comment : En partant du principe que les parametres du render == les parametrezs de l'action precedente. /]
-	return ok( views.html.[anActionState.name.replace(' ', '')/].render([for(anActionState.actions->first().operations->first().input)][name/][if (self <> anActionState.actions->first().operations->first().input->last())],[/if][/for]);
+	return ok( views.html.[anActionState.name.replace(' ', '')/].render([for(anActionState.actions->first().operations->first().output)][name/][if (self <> anActionState.actions->first().operations->first().output->last())],[/if][/for]);
 }
 
 [/template]
